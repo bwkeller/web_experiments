@@ -10,8 +10,8 @@
                 var pi2 = Math.PI*2;
                 var R0 = 50;
                 var z0 = 10;
-                var dt = 10;
-                var eps = 1;
+                var dt = 2;
+                var eps = 10;
                 var Pmass = 0;
                 var mouse = new THREE.Vector3([1e7,1e7,1e7]);
                 var camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 3000 );
@@ -28,10 +28,10 @@
                     offset.subVectors(pos, mouse);
                     perturbator.add(offset);
                     perturbator.normalize();
-                    perturbator.multiplyScalar(-1.0*Pmass/(offset.lengthSq()+R0));
+                    perturbator.multiplyScalar(-1.0*Pmass/(offset.lengthSq()+0.5*R0));
                     accel.add(pos);
                     accel.normalize();
-                    accel.multiplyScalar(-1.0/(pos.lengthSq()+eps));
+                    accel.multiplyScalar(-1.0/(pos.length()));
                     accel.add(perturbator);
                     return accel;
                 }
@@ -43,12 +43,14 @@
                     var vertex = new THREE.Vector3();
                     var vel = new THREE.Vector3();
                     var theta = Math.random() * pi2;
-                    var R = -Math.log(Math.random())*R0+5;
+                    var R = -Math.log(Math.random())*R0+eps;
                     vertex.x = R*Math.cos(theta);
                     vertex.y = R*Math.sin(theta);
                     vertex.z = 0;
-                    vel.x = -1*Math.sqrt(1./R)*Math.sin(theta);
-                    vel.y = Math.sqrt(1./R)*Math.cos(theta);
+                    //vel.x = -1*Math.sqrt(1./R)*Math.sin(theta);
+                    //vel.y = Math.sqrt(1./R)*Math.cos(theta);
+                    vel.x = -Math.sin(theta);
+                    vel.y = Math.cos(theta);
                     vertex.applyEuler(rotation);
                     vel.applyEuler(rotation);
                     position.vertices.push( vertex );
@@ -68,7 +70,7 @@
                     event.preventDefault();
                     mouse.x = event.clientX - 0.5*window.innerWidth;
                     mouse.y = -event.clientY + 0.5*window.innerHeight;
-                    Pmass = 0.5;
+                    Pmass = 20;
                 }
                 function animate() {
                     requestAnimationFrame( animate );
