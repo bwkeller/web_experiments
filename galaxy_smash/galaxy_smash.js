@@ -10,15 +10,15 @@ var galaxy = function () {
     var mouse = new THREE.Vector3([1e7,1e7,0]); //Mouse position (perturbator position too)
 
     var texture = THREE.ImageUtils.loadTexture("star.png")
-    var camera = new THREE.PerspectiveCamera( 60, element.offsetWidth / element.offsetHeight, 1, 3000 );
-    var materials = new THREE.PointsMaterial( { map:texture, size: 20, opacity:0.2, blending:THREE.AdditiveBlending, transparent:true, sizeAttenuation:false, depthTest:false}); //This sets up how our stars appear
+    var camera = new THREE.PerspectiveCamera( 40, element.offsetWidth / element.offsetHeight, 1, 3000 );
+    var materials = new THREE.PointsMaterial( { map:texture, size: 15, opacity:0.75, blending:THREE.AdditiveBlending, transparent:true, sizeAttenuation:false, depthTest:false}); //This sets up how our stars appear
     var scene = new THREE.Scene();
 
     var renderer = new THREE.WebGLRenderer();
     renderer.setSize( element.offsetWidth, element.offsetHeight );
     element.appendChild( renderer.domElement );
     position.dynamic = true; //Allow position vertices to be updated
-    camera.position.z = 800; //Reasonably close, increase for greater distance
+    camera.position.z = 2000; //Reasonably close, increase for greater distance
 
     var gravity = function (pos) {
         var accel = new THREE.Vector3();
@@ -36,20 +36,22 @@ var galaxy = function () {
 
     //Generate the particles, with a slight tilt
     //We need both positions and velocities (flat rotation curve)
-    var rotation = new THREE.Euler(pi2/4.7,pi2/2.2,0, 'XYZ')
+    var rotation = new THREE.Euler(pi2/6,0,0, 'XYZ')
     for ( i = 0; i < 10000; i ++ ) {
 
         var vertex = new THREE.Vector3();
         var vel = new THREE.Vector3();
         var theta = Math.random() * pi2;
-        var R = -Math.log(Math.random())*R0+2;
+        do {
+            var R = -Math.log(Math.random())*R0+5;
+        } while (R > 3*R0)
         vertex.x = R*Math.cos(theta);
         vertex.y = R*Math.sin(theta);
         vertex.z = 0;
         vel.x = -Math.sin(theta);
         vel.y = Math.cos(theta);
-        vertex.applyEuler(rotation);
-        vel.applyEuler(rotation);
+        //vertex.applyEuler(rotation);
+        //vel.applyEuler(rotation);
         position.vertices.push( vertex );
         velocity.push(vel);
 
