@@ -1,9 +1,9 @@
 var galaxy = function () {
     var element = document.getElementById( 'galaxy' );
     var pi2 = Math.PI*2; //2*pi, convenience variable
-    var R0 = 50; //Scale length
+    var R0 = 200; //Scale length
     var dt = 2; //Timestep
-    var eps = 10; //Softening for perturbator
+    var eps = 40; //Softening for perturbator
     var Pmass = 0; //Initialize the perturbator with 0 mass and large distance
     var velocity = new Array(); //Velocity vectors
     var position = new THREE.Geometry(); //Positions stored as vertices
@@ -11,14 +11,14 @@ var galaxy = function () {
 
     var texture = THREE.ImageUtils.loadTexture("star.png")
     var camera = new THREE.PerspectiveCamera( 60, element.offsetWidth / element.offsetHeight, 1, 3000 );
-    var materials = new THREE.PointsMaterial( { map:texture, size: 20, opacity:0.1, blending:THREE.AdditiveBlending, transparent:true, sizeAttenuation:false, depthTest:false}); //This sets up how our stars appear
+    var materials = new THREE.PointsMaterial( { map:texture, size: 20, opacity:0.2, blending:THREE.AdditiveBlending, transparent:true, sizeAttenuation:false, depthTest:false}); //This sets up how our stars appear
     var scene = new THREE.Scene();
 
-    renderer = new THREE.WebGLRenderer();
+    var renderer = new THREE.WebGLRenderer();
     renderer.setSize( element.offsetWidth, element.offsetHeight );
     element.appendChild( renderer.domElement );
     position.dynamic = true; //Allow position vertices to be updated
-    camera.position.z = 500; //Reasonably close, increase for greater distance
+    camera.position.z = 800; //Reasonably close, increase for greater distance
 
     var gravity = function (pos) {
         var accel = new THREE.Vector3();
@@ -42,7 +42,7 @@ var galaxy = function () {
         var vertex = new THREE.Vector3();
         var vel = new THREE.Vector3();
         var theta = Math.random() * pi2;
-        var R = -Math.log(Math.random())*R0+10;
+        var R = -Math.log(Math.random())*R0+2;
         vertex.x = R*Math.cos(theta);
         vertex.y = R*Math.sin(theta);
         vertex.z = 0;
