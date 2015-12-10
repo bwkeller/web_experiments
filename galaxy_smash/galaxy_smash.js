@@ -11,7 +11,7 @@ var galaxy = function () {
 
     var texture = THREE.ImageUtils.loadTexture("star.png")
     var camera = new THREE.PerspectiveCamera( 40, element.offsetWidth / element.offsetHeight, 1, 3000 );
-    var materials = new THREE.PointsMaterial( { map:texture, size: 15, opacity:0.75, blending:THREE.AdditiveBlending, transparent:true, sizeAttenuation:false, depthTest:false}); //This sets up how our stars appear
+    var materials = new THREE.PointsMaterial( { map:texture, size: 0.015*Math.sqrt(element.offsetWidth * element.offsetHeight), opacity:0.75, blending:THREE.AdditiveBlending, transparent:true, sizeAttenuation:false, depthTest:false}); //This sets up how our stars appear
     var scene = new THREE.Scene();
 
     var renderer = new THREE.WebGLRenderer();
@@ -66,7 +66,7 @@ var galaxy = function () {
         event.preventDefault();
         mouse.x = event.clientX - 0.5*element.offsetWidth;
         mouse.y = -event.clientY + 0.5*element.offsetHeight;
-        Pmass = 20;
+        Pmass = 40;
     }
 
     //Animate using the HTML5 requestAnimationFrame
