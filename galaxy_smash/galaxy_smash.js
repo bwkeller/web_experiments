@@ -1,4 +1,4 @@
-var galaxy = function () {
+var galaxy = function (star_img) {
     var element = document.getElementById( 'galaxy' );
     var pi2 = Math.PI*2; //2*pi, convenience variable
     var R0 = 200; //Scale length
@@ -9,7 +9,7 @@ var galaxy = function () {
     var position = new THREE.Geometry(); //Positions stored as vertices
     var mouse = new THREE.Vector3([1e7,1e7,0]); //Mouse position (perturbator position too)
 
-    var texture = THREE.ImageUtils.loadTexture("star.png")
+    var texture = THREE.ImageUtils.loadTexture(star_img)
     var camera = new THREE.PerspectiveCamera( 40, element.offsetWidth / element.offsetHeight, 1, 3000 );
     var materials = new THREE.PointsMaterial( { map:texture, size: 0.015*Math.sqrt(element.offsetWidth * element.offsetHeight), opacity:0.75, blending:THREE.AdditiveBlending, transparent:true, sizeAttenuation:false, depthTest:false}); //This sets up how our stars appear
     var scene = new THREE.Scene();
@@ -93,5 +93,4 @@ var galaxy = function () {
         position.verticesNeedUpdate = true;
     }
 }
-galaxy();
 
